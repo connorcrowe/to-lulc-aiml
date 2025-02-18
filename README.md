@@ -33,6 +33,8 @@ This was resolved by splitting the image into training and test areas first, the
 To make the most of the digitized data, the training patches were randomly augmented. Augmentation included horizontal flipping, rotation (90, 180, 270), brightness adjustment, contrast adjustment, random zoom with rescaling, and some random gaussian noise. The model improved significantly with these augmentations, especially when predicting areas in shadow.
 
 **Performance**
-Train/test raster: 512x512 pixels split into 234 128x128px augmented patches with 32px overlap. Trained on a U-net CNN model with early stopping, stopped after 39 epochs with validation accuracy of 0.7
+Train/test raster: 512x512 pixels split into 234 128x128px augmented patches with 32px overlap. Trained on a U-net CNN model with early stopping, stopped after 39 epochs with validation accuracy of 0.7. 
+
+The result tends to get the general shape of buildings, while failing to identify most corners. It has started to pick up on the linear nature of the roads, but fails to identify vegetation especially in the large Grange Park in the image.
 
 ![](2_CNN/result/pred_128size_32step_100aug_full_aug.png)
