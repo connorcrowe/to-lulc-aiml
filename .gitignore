@@ -1,3 +1,4 @@
 .ipynb_checkpoints
 .attic
 .venv
+qgis_data/*
