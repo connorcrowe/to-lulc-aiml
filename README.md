@@ -1,40 +1,61 @@
-# Land Use Land Cover Machine Learning Classification
-The objective of this project is to create an accurate vector map of Toronto using machine learning classification of aerial imagery. 
+# 🛩️ Land Use Land Cover Classification of Aerial Imagery with Machine Learning
+**Explore the full model:** [U-Net CNN in Jupyter Notebook](https://github.com/connorcrowe/to-lulc-aiml/blob/main/3_Final/3_Full_Model.ipynb)
+***Objective:** Predict land use classification in aerial imagery with high accuracy, especially in specific spatial relationships, such as identifying a connected roadway network and accurately mapping vegetation vs pavement to allow for potential future use in transportation analysis, impervious surface mapping, etc.*
+IMAGE
 
-## 1) Simple Random Forest Classifier
-**Model:** Random Forest
-**Accuracy:** 0.44
+## Project Overview
+This project explores the use of machine learning to automate Land Use Land Cover (LULC) classification from high-resolution aerial imagery. Automated LULC mapping is a critical tool for urban planning, climate analysis, and environmental monitoring, providing consistent and scalable methods for understanding how land is being used in urban environments.
 
-To establish a simple baseline and get a quick warm up on handling image and geospatial data, the first classifier was kept to small scale. It is only a simple random forest classifier and included only 5 blocks squared of downtown Toronto and restricted to only 3 classes (road, building, vegetation).
+By iterating through multiple model architectures and analyzing the results, this project demonstrates how machine learning techniques can improve the accuracy of LULC classification through experimentation.
 
-To improve the accuracy, the distribution of training classes was balanced out, and the hyperparameters were tuned although this showed almost no improvement in validation accuracy or final image prediction. 
+## Experimental Journey
+**Baseline Model: Random Forest Classifier**
+**Goal:** Establish very simply baseline with traditional method, and ensure data formatting is correct
 
-The Random Forest approach was helpful as a simple baseline, but it lacks spatial context and does not apply to the problem well. It also is unlikely to scale well.
+The first attempt used a Random Forest Classifier trained on disparate, pure features without spatial context (a flawed approach).
+| | | 
+| - |  - | 
+| **Model** | Random Forest | 
+| **Validation Accuracy** | ~0.3 |
+| **Observations** | Struggled with spatial relationships. Thought many building rooves were roads. |
 
-![](1_RF/result/1_042_Result.png)
+INSERT RESULTS IMAGES HERE
 
-## 2) Convolutional Neural Network Classifier
-**Model:** Convolutional Neural Network (CNN)
-**Accuracy:** 0.70
+**Basic CNN**
+**Goal:** Improve accuracy with convolutional network. Use labelled rasters for training input. Apply image augmentation in training.
 
-CNNs are much more applicable to the problem and used more commonly in image classification tasks since they are able to pick up on spatial relationships, and scale much more efficiently.
+This model trained on 128x128 patches of a 512x512 aerial image that hand been manually digitized.
+| | |
+| - | - |
+| **Model** | CNN | 
+| **Validation Accuracy** | ~0.5 |
+| **Observations** | Better at telling roads from buildings. Failed to understand spatial relationship of roads. Failed to identify vegetation. Struggles to predict areas under building shadows. | 
 
-**Training Data Improved**
-In the previous model, training samples were pure (the entire image was vegetation, for example). This approach was flawed, so for this model a section of Toronto was digitized and turned into a labelled raster.
+RESULTS HERE
 
-The raster was split into smaller "patches" and the CNN was trained on these. To help enforce spatial relationships, the patches contained some overlap with each other. 
+**U-Net Architecture**
+**Goal:** Improve spatial relationships of roads relative to each other. Improve classification of vegetation. Predict on more input imagery. Train on, and predict higher resolution imagery (improve memory management). 
 
-**Data Leakage**
-The first implementation of this approach caused a severe data leakage (spotted because of unusually high training accuracy). Because there was overlap between the patches, and the test set was a random sample of the patches, some of the data in the test set overlapped with data in the training set - a terrible example of data leakage. 
+Improvements:
+- Robust data augmentation
+- More, higher resolution training data
+- More convolutional layers
+- Add 'skip connections' 
+- Add learning rate scheduling
 
-This was resolved by splitting the image into training and test areas first, then splitting those into patches with overlap to avoid any leakage. 
+| | |
+| - | - |
+| **Model** | U-Net CNN |
+| **Validation Accuracy** | ~0.7 | 
+| **Dice Coefficient (Val)** | ~0.6 |
+| **Observations** | Best performance overall. Identifiable roadway pattern, even in some shadowed areas. Vegetation predicted accurately. Most pavement footpaths predicted accurately. Sidewalk network (as pavement class) in reasonable shape in some places. Building footprints generally shaped correctly, although some shadows do interfere, and buildings are not instance segmented.
 
-**Data Augmentation**
-To make the most of the digitized data, the training patches were randomly augmented. Augmentation included horizontal flipping, rotation (90, 180, 270), brightness adjustment, contrast adjustment, random zoom with rescaling, and some random gaussian noise. The model improved significantly with these augmentations, especially when predicting areas in shadow.
+RESULTS HERE 
 
-**Performance**
-Train/test raster: 512x512 pixels split into 234 128x128px augmented patches with 32px overlap. Trained on a U-net CNN model with early stopping, stopped after 39 epochs with validation accuracy of 0.7. 
+## Results
 
-The result tends to get the general shape of buildings, while failing to identify most corners. It has started to pick up on the linear nature of the roads, but fails to identify vegetation especially in the large Grange Park in the image.
+**Key Observations**
 
-![](2_CNN/result/pred_128size_32step_100aug_full_aug.png)
+## Data Sources
+- Aerial Imagery (for training and prediction): [Toronto Aerial Imagery GIS Map Server](https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer), imagery taken 2019
+- Labelled raster for training: self-digitized from aerial imagery
