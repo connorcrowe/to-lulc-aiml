@@ -1,22 +1,22 @@
 # 🛩️ Land Use Land Cover Classification of Aerial Imagery with Machine Learning
 **Explore the full model:** [U-Net CNN in Jupyter Notebook](https://github.com/connorcrowe/to-lulc-aiml/blob/main/3_Final/3_Full_Model.ipynb)
-***Objective:** Predict land use classification in aerial imagery with high accuracy, especially in specific spatial relationships, such as identifying a connected roadway network and accurately mapping vegetation vs pavement to allow for potential future use in transportation analysis, impervious surface mapping, etc.*
-IMAGE
+
+**Objective:** *Predict land use classifications in aerial imagery, focusing on specific spatial relationships, such as identifying roadway networks and mapping vegetation versus pavement. This enables potential applications in transportation analysis, impervious surface mapping, etc.*
 
 ## Project Overview
 This project explores the use of machine learning to automate Land Use Land Cover (LULC) classification from high-resolution aerial imagery. Automated LULC mapping is a critical tool for urban planning, climate analysis, and environmental monitoring, providing consistent and scalable methods for understanding how land is being used in urban environments.
 
-By iterating through multiple model architectures and analyzing the results, this project demonstrates how machine learning techniques can improve the accuracy of LULC classification through experimentation.
+An iterative approach was taken, gradually improving the quality of the training data, data augmentation, model, and prediction. 
 
 ## Tools & Tech & Skills
-- QGIS, Digitization, Aerial Imagery via WMS
-- CNNs, U-Net, Python, Data Augmentation, Tensorflow, 
+- QGIS, Digitization, Aerial Imagery via WMS, Geospatial Data Manipulation
+- Convolutional Neural Networks (CNNs), U-Net Architectures, Python, Data Augmentation, TensorFlow 
 
 ## Experimental Journey
 ### **Baseline Model: Random Forest Classifier**
 **Goal:** Establish very simply baseline with traditional method, and ensure data formatting is correct
 
-The first attempt used a Random Forest Classifier trained on disparate, pure features without spatial context (a flawed approach).
+The first attempt used a Random Forest Classifier. To train it, polygons for each class were manually labelled, and then the aerial image was masked on to it. This approach requires little space, but does not help the model understand any spatial relationships. 
 | | | 
 |-|-| 
 | **Model** | Random Forest | 
@@ -28,15 +28,17 @@ The first attempt used a Random Forest Classifier trained on disparate, pure fea
 | ![](/results/input_1.jpg) | ![](results/1_random_forest.jpg)|
 | **Resolution:** 2560 x 2347 px | **Light Green:** Vegetation, **Orange:** Building, **Dark Green:** Road |
 
-### **Basic CNN**
+### **Simple CNN**
 **Goal:** Improve accuracy with convolutional network. Use labelled rasters for training input. Apply image augmentation in training.
 
-This model trained on 128x128 patches of a 512x512 aerial image that hand been manually digitized.
+This model trained on 128x128 patches of a 512x512 aerial image that hand been manually digitized. These labelled rasters should improve the ability of the model to see spatial relationships. 
+
+The aerial image was predicted in overlapping patches, with the overlapping areas blended by average value. This leads to fewer sharp corners compared to the Random Forest model.
 | | |
 |-|-|
-| **Model** | CNN | 
+| **Model** | Simple CNN | 
 | **Validation Accuracy** | ~0.5 |
-| **Observations** | Better at telling roads from buildings. Failed to understand spatial relationship of roads. Failed to identify vegetation. Struggles to predict areas under building shadows. | 
+| **Observations** | Failed to understand spatial relationship of roads. Failed to identify vegetation. Struggles to predict areas under building shadows. Blended approach reduced sharpness of predicted results. | 
 
 | Input Aerial | Predicted | 
 |-|-|
@@ -58,15 +60,31 @@ Improvements:
 | **Model** | U-Net CNN |
 | **Validation Accuracy** | ~0.7 | 
 | **Dice Coefficient (Val)** | ~0.6 |
-| **Observations** | Best performance overall. Identifiable roadway pattern, even in some shadowed areas. Vegetation predicted accurately. Most pavement footpaths predicted accurately. Sidewalk network (as pavement class) in reasonable shape in some places. Building footprints generally shaped correctly, although some shadows do interfere, and buildings are not instance segmented. 
+| **Observations** | Identifiable roadway pattern, even in some shadowed areas. Vegetation predicted accurately. Pavement footpaths predicted accurately. Sidewalk network (as pavement class) in reasonable shape in some places. Building footprints generally shaped correctly, although some shadows do interfere, and buildings are not instance segmented. 
 
 ## Results
+### Large Area Predicted by U-Net Model
+With tweaks like improving the resolution of the input imagery, and providing more training data in trouble spots like parks and shadowed areas, the model improved. 
+- Roads were mapped in an identifiable and connected network, even in some shadowed areas
+- Vegetation was classified accurately
+- Sidewalk network partially identified
+- Pathway network in parks reasonably identified
+- Shadows and building edges proved persistent challenges
+
+On a large aerial, the segmentation result produces an identifiable roadway network even in shadows. Parks and vegetation are predicted accurately. This means that further refinement of the model could unlock its use in transportation mapping, impervious surface mapping/change detection, and other important applications.
 | Input Aerial |Predicted | 
 |-|-|
 | ![](/results/input_2.jpg) | ![](/results/3_unet.jpg) |
 | **Resolution:** 9216 x 9126 px | **Light Green:** Vegetation, **Orange:** Building, **Dark Green:** Road, **Grey:** Pavement |
 
-**Key Observations**
+The project demonstrates how iterative experimentation and model refinement can significantly improve LULC classification. It highlights the importance in improving both model architecture and input data quality in geospatial machine learning. 
+
+With more time and resources, this could be experimented with further:
+- Investigating dropout layers
+- Higher input resolution (blocked by memory limits, for now)
+- Higher output prediction (blocked by memory limits, for now)
+- Adding classes (bare soil, water, construction, etc.)
+- Striving for specific instance segmentation (building footprint, crosswalk, etc.)
 
 ## Data Sources
 - Aerial Imagery (for training and prediction): [Toronto Aerial Imagery GIS Map Server](https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer), imagery taken 2019
