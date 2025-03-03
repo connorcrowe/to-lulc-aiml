@@ -10,6 +10,8 @@ This project explores the use of machine learning to automate Land Use Land Cove
 
 An iterative approach was taken, gradually improving the quality of the training data, data augmentation, model, and prediction. 
 
+The training data was labelled manually, with more data being annotated and added to the training set by the third model. This approach allowed for familiarity with the annotation process, but has drawbacks (human error, less data since it is time-consuming).
+
 ## Tools & Tech & Skills
 - QGIS, Digitization, Aerial Imagery via WMS, Geospatial Data Manipulation
 - Convolutional Neural Networks (CNNs), U-Net Architectures, Python, Data Augmentation, TensorFlow 
@@ -34,7 +36,7 @@ The first attempt used a Random Forest Classifier. To train it, polygons for eac
 ### **Simple CNN**
 **Goal:** Improve accuracy with convolutional network. Use labelled rasters for training input. Apply image augmentation in training.
 
-This model trained on 128x128 patches of a 512x512 aerial image that hand been manually digitized. These labelled rasters should improve the ability of the model to see spatial relationships. 
+This model trained on 128x128 patches of a 512x512 aerial image that had been manually digitized. These labelled rasters should improve the ability of the model to see spatial relationships. 
 
 The aerial image was predicted in overlapping patches, with the overlapping areas blended by average value. This leads to fewer sharp corners compared to the Random Forest model.
 | | |
@@ -84,12 +86,17 @@ On a large aerial, the segmentation result produces an identifiable roadway netw
 
 The project demonstrates how iterative experimentation and model refinement can improve LULC classification. It highlights the importance in improving both model architecture and input data quality in geospatial machine learning. 
 
+### Future Work & Limitations
+
 With more time and resources, this could be experimented with further:
-- Investigating dropout layers
-- Higher input resolution (blocked by memory limits, for now)
-- Higher output prediction (blocked by memory limits, for now)
-- Adding classes (bare soil, water, construction, etc.)
-- Striving for specific instance segmentation (building footprint, crosswalk, etc.)
+- Investigating dropout layers and other model tweaks
+- Higher input & output resolution (blocked by memory limits, for now)
+- Adding additional classes (bare soil, water, construction, etc.)
+- Improved training data (semi-automated automation)
+
+While this approach classifies pixels, future iterations could incorporate instance segmentation for automated building footprint extraction, a key problem in urban planning and disaster response. It could also be improved and used on several aerials from different years to analyze the change in other impervious surfaces, a key part of flood response planning. 
+
+Urban planners and environmental researchers need accurate, automated maps to track how cities evolve. Traditional mapping methods are slow and labor-intensive. This project explores how machine learning can automate land use classification from aerial imagery, improving scalability and consistency.
 
 ## Data Sources
 - Aerial Imagery (for training and prediction): [Toronto Aerial Imagery GIS Map Server](https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer), imagery taken 2019
