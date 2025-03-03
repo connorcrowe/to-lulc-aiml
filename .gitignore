@@ -1,6 +1,11 @@
 .ipynb_checkpoints
 .attic
 .venv
+
 qgis_data/*
 
 2_CNN/result/attic/*
+
+3_Final/input/aerial/512/*
+3_Final/input/label/512/*
+3_Final/input/full/512/*
