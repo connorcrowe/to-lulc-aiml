@@ -8,6 +8,8 @@
 ## Project Overview
 This project explores the use of machine learning to automate Land Use Land Cover (LULC) classification from high-resolution aerial imagery. Automated LULC mapping is a critical tool for urban planning, climate analysis, and environmental monitoring, providing consistent and scalable methods for understanding how land is being used in urban environments.
 
+Urban planners and environmental researchers need accurate, automated maps to track how cities evolve. Traditional mapping methods are slow and labor-intensive. This project explores how machine learning can automate land use classification from aerial imagery, improving scalability and consistency.
+
 An iterative approach was taken, gradually improving the quality of the training data, data augmentation, model, and prediction. 
 
 The training data was labelled manually, with more data being annotated and added to the training set by the third model. This approach allowed for familiarity with the annotation process, but has drawbacks (human error, less data since it is time-consuming).
@@ -95,8 +97,6 @@ With more time and resources, this could be experimented with further:
 - Improved training data (semi-automated automation)
 
 While this approach classifies pixels, future iterations could incorporate instance segmentation for automated building footprint extraction, a key problem in urban planning and disaster response. It could also be improved and used on several aerials from different years to analyze the change in other impervious surfaces, a key part of flood response planning. 
-
-Urban planners and environmental researchers need accurate, automated maps to track how cities evolve. Traditional mapping methods are slow and labor-intensive. This project explores how machine learning can automate land use classification from aerial imagery, improving scalability and consistency.
 
 ## Data Sources
 - Aerial Imagery (for training and prediction): [Toronto Aerial Imagery GIS Map Server](https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer), imagery taken 2019
