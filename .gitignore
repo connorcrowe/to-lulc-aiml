@@ -3,6 +3,7 @@
 .venv
 
 qgis_data/*
+support_images/*
 
 2_CNN/result/attic/*
 
