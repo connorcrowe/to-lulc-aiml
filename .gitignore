@@ -2,3 +2,5 @@
 .attic
 .venv
 qgis_data/*
+
+2_CNN/result/attic/*
