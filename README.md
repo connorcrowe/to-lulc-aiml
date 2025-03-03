@@ -13,6 +13,7 @@ An iterative approach was taken, gradually improving the quality of the training
 ## Tools & Tech & Skills
 - QGIS, Digitization, Aerial Imagery via WMS, Geospatial Data Manipulation
 - Convolutional Neural Networks (CNNs), U-Net Architectures, Python, Data Augmentation, TensorFlow 
+- *Some imagery (input aerial as .tif, several intermediate results) excluded for size concerns*
 
 ## Experimental Journey
 ### **Baseline Model: Random Forest Classifier**
@@ -62,12 +63,14 @@ Improvements:
 | **Model** | U-Net CNN |
 | **Validation Accuracy** | ~0.7 | 
 | **Dice Coefficient (Val)** | ~0.6 |
-| **Observations** | Identifiable roadway pattern, even in some shadowed areas. Vegetation predicted accurately. Pavement footpaths predicted accurately. Sidewalk network (as pavement class) in reasonable shape in some places. Building footprints generally shaped correctly, although some shadows do interfere, and buildings are not instance segmented. 
+| **Observations** | Identifiable roadway pattern, even in some shadowed areas. Vegetation predicted accurately. Pavement footpaths predicted accurately. Sidewalk network (as pavement class) in reasonable shape in some places. Building footprints generally shaped correctly, although some shadows do interfere, and buildings are not instance segmented. |
+
+*Result image below*
 
 ## Results
 ### Large Area Predicted by U-Net Model
 With tweaks like improving the resolution of the input imagery, and providing more training data in trouble spots like parks and shadowed areas, the model improved. 
-- Roads were mapped in an identifiable and connected network, even in some shadowed areas
+- Roads were mapped in an identifiable and nearly connected network, even in some shadowed areas
 - Vegetation was classified accurately
 - Sidewalk network partially identified
 - Pathway network in parks reasonably identified
@@ -79,7 +82,7 @@ On a large aerial, the segmentation result produces an identifiable roadway netw
 | ![](/results/input_2.jpg) | ![](/results/3_unet.jpg) |
 | **Resolution:** 9216 x 9126 px | **Light Green:** Vegetation, **Orange:** Building, **Dark Green:** Road, **Grey:** Pavement |
 
-The project demonstrates how iterative experimentation and model refinement can significantly improve LULC classification. It highlights the importance in improving both model architecture and input data quality in geospatial machine learning. 
+The project demonstrates how iterative experimentation and model refinement can improve LULC classification. It highlights the importance in improving both model architecture and input data quality in geospatial machine learning. 
 
 With more time and resources, this could be experimented with further:
 - Investigating dropout layers
