@@ -1,6 +1,8 @@
 # 🛩️ Land Use Land Cover Classification of Aerial Imagery with Machine Learning
 **Explore the full model:** [U-Net CNN in Jupyter Notebook](https://github.com/connorcrowe/to-lulc-aiml/blob/main/3_Final/3_Full_Model.ipynb)
 
+![](/results/banner.jpg)
+
 **Objective:** *Predict land use classifications in aerial imagery, focusing on specific spatial relationships, such as identifying roadway networks and mapping vegetation versus pavement. This enables potential applications in transportation analysis, impervious surface mapping, etc.*
 
 ## Project Overview
