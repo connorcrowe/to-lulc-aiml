@@ -6,7 +6,7 @@
 **Objective:** *Predict land use classifications in aerial imagery, focusing on specific spatial relationships, such as identifying roadway networks and mapping vegetation versus pavement. This enables potential applications in transportation analysis, impervious surface mapping, etc.*
 
 ## Project Overview
-This project explores the use of machine learning to automate Land Use Land Cover (LULC) classification from high-resolution aerial imagery. Automated LULC mapping is a critical tool for urban planning, climate analysis, and environmental monitoring, providing consistent and scalable methods for understanding how land is being used in urban environments.
+This project explores using machine learning to automate Land Use Land Cover (LULC) classification from high-resolution aerial imagery. Automated LULC mapping is a critical tool for urban planning, climate analysis, and environmental monitoring, providing consistent and scalable methods for understanding how land is being used in urban environments.
 
 Urban planners and environmental researchers need accurate, automated maps to track how cities evolve. Traditional mapping methods are slow and labor-intensive. This project explores how machine learning can automate land use classification from aerial imagery, improving scalability and consistency.
 
@@ -95,6 +95,7 @@ With more time and resources, this could be experimented with further:
 - Higher input & output resolution (blocked by memory limits, for now)
 - Adding additional classes (bare soil, water, construction, etc.)
 - Improved training data (semi-automated automation)
+- Patch together many predictions to get full map of Toronto
 
 While this approach classifies pixels, future iterations could incorporate instance segmentation for automated building footprint extraction, a key problem in urban planning and disaster response. It could also be improved and used on several aerials from different years to analyze the change in other impervious surfaces, a key part of flood response planning. 
 
