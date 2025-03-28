@@ -91,11 +91,19 @@ The project demonstrates how iterative experimentation and model refinement can 
 ### Future Work & Limitations
 
 With more time and resources, this could be experimented with further:
-- Investigating dropout layers and other model tweaks
-- Higher input & output resolution (blocked by memory limits, for now)
-- Adding additional classes (bare soil, water, construction, etc.)
-- Improved training data (semi-automated automation)
-- Patch together many predictions to get full map of Toronto
+- Improve model architecture
+    - ✔️ Add dropout layers to prevent overfitting
+    - ✔️ Increase filter layers to better extract features
+    - ✔️ Increase kernel size in deep layers
+
+- Improve data & training
+    - ✔️ Add water class
+    - Try different training image pixel densities
+
+- Predict large area
+    - Look into automated tiling
+    - Collate predictions (explore web API for result viewing)
+
 
 While this approach classifies pixels, future iterations could incorporate instance segmentation for automated building footprint extraction, a key problem in urban planning and disaster response. It could also be improved and used on several aerials from different years to analyze the change in other impervious surfaces, a key part of flood response planning. 
 
