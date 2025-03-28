@@ -98,6 +98,7 @@ With more time and resources, this could be experimented with further:
 
 - Improve data & training
     - ✔️ Add water class
+    - Migrate to on-the-fly data augmentation
     - Try different training image pixel densities
 
 - Predict large area
