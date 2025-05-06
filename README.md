@@ -69,6 +69,34 @@ Improvements:
 | **Dice Coefficient (Val)** | ~0.6 |
 | **Observations** | Identifiable roadway pattern, even in some shadowed areas. Vegetation predicted accurately. Pavement footpaths predicted accurately. Sidewalk network (as pavement class) in reasonable shape in some places. Building footprints generally shaped correctly, although some shadows do interfere, and buildings are not instance segmented. |
 
+```mermaid
+flowchart LR
+    subgraph Encoder
+        A[Input<br>128×128×3] --> B1[ConvBlock + MaxPool<br>64 filters]
+        B1 --> B2[ConvBlock + MaxPool<br>128 filters]
+        B2 --> B3[ConvBlock + MaxPool<br>256 filters<br>5×5 kernel]
+        B3 --> B4[ConvBlock + MaxPool<br>512 filters<br>5×5 kernel]
+    end
+
+    subgraph Bottleneck
+        B4 --> BN[Bottleneck<br>1024 filters<br>5×5 kernel]
+    end
+
+    subgraph Decoder
+        BN --> U4[UpSample + Concat B4<br>→ ConvBlock 512]
+        U4 --> U3[UpSample + Concat B3<br>→ ConvBlock 256]
+        U3 --> U2[UpSample + Concat B2<br>→ ConvBlock 128]
+        U2 --> U1[UpSample + Concat B1<br>→ ConvBlock 64]
+        U1 --> O[Output<br>1×1 Softmax<br>5 classes]
+    end
+
+    %% Skip Connections
+    B1 --skip--> U1
+    B2 --skip--> U2
+    B3 --skip--> U3
+    B4 --skip--> U4
+```
+
 *Result image below*
 
 ## Results
@@ -84,7 +112,7 @@ On a large aerial, the segmentation result produces an identifiable roadway netw
 | Input Aerial |Predicted | 
 |-|-|
 | ![](/results/input_2.jpg) | ![](/results/3_unet.jpg) |
-| **Resolution:** 9216 x 9126 px | **Light Green:** Vegetation, **Orange:** Building, **Dark Green:** Road, **Grey:** Pavement |
+| **Resolution:** 9216 x 9216 px | **Light Green:** Vegetation, **Orange:** Building, **Dark Green:** Road, **Grey:** Pavement |
 
 The project demonstrates how iterative experimentation and model refinement can improve LULC classification. It highlights the importance in improving both model architecture and input data quality in geospatial machine learning. 
 
@@ -99,11 +127,10 @@ With more time and resources, this could be experimented with further:
 - Improve data & training
     - ✔️ Add water class
     - Migrate to on-the-fly data augmentation
-    - Try different training image pixel densities
+    - ✔️Try different training image pixel densities
 
 - Predict large area
-    - Look into automated tiling
-    - Collate predictions (explore web API for result viewing)
+    - ✔️ See the [Live Demo](https://connorcrowe.github.io/to-lulc-scale/) or checkout the [Repo](https://github.com/connorcrowe/to-lulc-scale)
 
 
 While this approach classifies pixels, future iterations could incorporate instance segmentation for automated building footprint extraction, a key problem in urban planning and disaster response. It could also be improved and used on several aerials from different years to analyze the change in other impervious surfaces, a key part of flood response planning. 
